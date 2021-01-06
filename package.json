@@ -1,16 +1,16 @@
 {
   "name": "@metrisk/money",
   "version": "1.0.0",
-  "description": "",
+  "description": "A package to assist with handling monetary values",
   "main": "dist/index.js",
   "scripts": {
     "build": "rollup -c",
-    "publish": "publish",
+    "publish": "npm run build && npm publish --access public",
     "test": "jest"
   },
   "typings": "dist/index.d.ts",
-  "author": "",
-  "license": "ISC",
+  "author": "@metrisk",
+  "license": "MIT",
   "devDependencies": {
     "@babel/core": "^7.12.10",
     "@babel/preset-env": "^7.12.11",
@@ -24,5 +24,13 @@
     "tslib": "^2.0.3",
     "typescript": "^4.1.3"
   },
-  "dependencies": {}
+  "dependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/metrisk/money.git"
+  },
+  "bugs": {
+    "url": "https://github.com/metrisk/money/issues"
+  },
+  "homepage": "https://github.com/metrisk/money#readme"
 }
