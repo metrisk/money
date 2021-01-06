@@ -18,9 +18,20 @@ jobs:
         run: npm ci
       - name: Execute the tests
         run: npm run test
-  automerge:
+  automate-pullrequest-review:
     runs-on: ubuntu-latest
     needs: unittests
+    steps:
+      - name: Approve pull request
+        if: ${{ github.actor == 'dependabot[bot]' }}
+        uses: andrewmusgrave/automatic-pull-request-review@0.0.2
+        with:
+          repo-token: '${{ secrets.GITHUB_TOKEN }}'
+          event: APPROVE
+          body: 'Thank you dependabot :+1:'
+  automerge:
+    runs-on: ubuntu-latest
+    needs: [unittests, automate-pullrequest-review]
     if: ${{ github.actor == 'dependabot[bot]' }}
     steps:
       - name: automerge
