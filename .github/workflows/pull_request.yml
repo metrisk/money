@@ -5,10 +5,10 @@ jobs:
     name: Running the unit tests
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v2.3.4
       - name: npm cache
         id: npm-cache
-        uses: actions/cache@v1
+        uses: actions/cache@v2.1.3
         with:
           path: node_modules
           key: npm-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
@@ -18,3 +18,14 @@ jobs:
         run: npm ci
       - name: Execute the tests
         run: npm run test
+  automerge:
+    runs-on: ubuntu-latest
+    needs: unittests
+    if: ${{ github.actor == 'dependabot[bot]' }}
+    steps:
+      - name: automerge
+        uses: pascalgn/automerge-action@v0.13.0
+        env:
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          MERGE_METHOD: "merge"
+          MERGE_LABELS: "dependencies"
