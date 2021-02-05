@@ -2,10 +2,10 @@
   "name": "@metrisk/money",
   "version": "1.1.0",
   "description": "A package to assist with handling monetary values",
-  "main": "dist/index.js",
+  "main": "dist/index.mjs",
   "scripts": {
     "build": "rollup -c",
-    "publish": "npm run build && npm publish --access public",
+    "publish": "npm publish --access public",
     "test": "jest"
   },
   "typings": "dist/index.d.ts",
