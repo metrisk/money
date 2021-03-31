@@ -16,7 +16,7 @@ jobs:
       - name: Install Deps if no cache
         if: steps.npm-cache.outputs.cache-hit != true
         run: npm ci
-        # env:
-        #   GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+        env:
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
       - name: Execute the tests
         run: npm run test
