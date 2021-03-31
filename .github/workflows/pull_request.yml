@@ -20,14 +20,3 @@ jobs:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
       - name: Execute the tests
         run: npm run test
-  automerge:
-    runs-on: ubuntu-latest
-    needs: [unittests, automate-pullrequest-review]
-    if: ${{ github.actor == 'dependabot[bot]' }}
-    steps:
-      - name: automerge
-        uses: pascalgn/automerge-action@v0.13.1
-        env:
-          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-          MERGE_METHOD: "merge"
-          MERGE_LABELS: "dependencies"
