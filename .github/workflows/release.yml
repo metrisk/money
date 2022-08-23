@@ -1,8 +1,7 @@
 name: On Published Release
 on:
-  push:
-    branches:
-      - feat/convert-to-github-package
+  release:
+    types: [published]
 jobs:
   publish:
     name: Publish to GitHub packages
