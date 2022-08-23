@@ -1,6 +1,6 @@
 {
   "name": "@metrisk/money",
-  "version": "1.4.6",
+  "version": "1.4.7",
   "description": "A package to assist with handling monetary values",
   "main": "dist/index.mjs",
   "scripts": {
