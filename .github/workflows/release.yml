@@ -25,7 +25,7 @@ jobs:
         if: steps.npm-cache.outputs.cache-hit != true
         run: npm ci
         env:
-          GITHUB_TOKEN: ${{ secrets.METRISK_BOT_ACTIONS }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Publish to GitHub packages
         run: npm publish
         env:
