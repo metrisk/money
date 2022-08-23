@@ -1,11 +1,10 @@
 {
   "name": "@metrisk/money",
-  "version": "1.2.1",
+  "version": "1.4.5",
   "description": "A package to assist with handling monetary values",
   "main": "dist/index.mjs",
   "scripts": {
     "build": "rollup -c",
-    "pub": "npm publish --access public",
     "test": "jest"
   },
   "typings": "dist/index.d.ts",
@@ -31,5 +30,8 @@
   "bugs": {
     "url": "https://github.com/metrisk/money/issues"
   },
-  "homepage": "https://github.com/metrisk/money#readme"
+  "homepage": "https://github.com/metrisk/money#readme",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  }
 }
