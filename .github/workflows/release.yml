@@ -1,0 +1,33 @@
+name: On Published Release
+on:
+  release:
+    types: [published]
+jobs:
+  publish:
+    name: Publish to GitHub packages
+    runs-on: ubuntu-latest
+    steps:
+      - name: Git clone the repository
+        uses: actions/checkout@v3
+      - name: npm cache
+        id: new-cache
+        uses: actions/cache@v2.1.7
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-new-cache-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-new-cache-
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+          always-auth: true
+      - name: Install Deps if no cache
+        if: steps.npm-cache.outputs.cache-hit != true
+        run: npm ci
+        env:
+          GITHUB_TOKEN: ${{ secrets.METRISK_BOT_ACTIONS }}
+      - name: Publish to GitHub packages
+        run: npm publish
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_PACKAGE_TOKEN }}
+
