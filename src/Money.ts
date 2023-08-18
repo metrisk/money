@@ -41,11 +41,11 @@ export default class Money {
 
   /**
    * Create a Money object from a string representation of the amount of money
-   * @param mainAmount The quantity of money as a string in the main unit of the currency (e.g. '10.50' for £10.50)
+   * @param input The quantity of money as a string in the main unit of the currency (e.g. '10.50' for £10.50)
    * @param currency The alphabetic currency code as defined by ISO 4217 (e.g. GBP for Sterling)
    */
-  static fromString(mainAmount: string, currency: string): Money {
-    const amount = parseCurrencyString(mainAmount, currency)
+  static fromString(input: string, currency: string): Money {
+    const amount = parseCurrencyString(input, currency)
     return new Money(amount, currency)
   }
 
