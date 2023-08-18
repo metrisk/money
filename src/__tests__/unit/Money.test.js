@@ -21,6 +21,11 @@ describe('Money', () => {
     expect(money.toDecimal()).toStrictEqual(21.53)
   })
 
+  it('should get the amount as a decimal with a non-two minor unit fraction', () => {
+    const money = new Money(2153, 'JPY')
+    expect(money.toDecimal()).toStrictEqual(2153)
+  })
+
   it('should get the amount as a locale formatted string', () => {
     const money = new Money(2153, 'GBP')
     expect(money.toLocaleString()).toStrictEqual('£21.53')
@@ -59,12 +64,18 @@ describe('Money', () => {
   })
 
   it('should parse a currency string and return a Money instance', () => {
-    const money = Money.fromString('22.12', 'GBP')
+    const money = Money.fromString('2200.12', 'GBP')
 
-    expect(money.getAmount()).toStrictEqual(2212)
+    expect(money.getAmount()).toStrictEqual(220012)
     expect(money.getCurrency()).toStrictEqual('GBP')
-    expect(money.toDecimal()).toStrictEqual(22.12)
-    expect(money.toLocaleString()).toStrictEqual('£22.12')
+    expect(money.toDecimal()).toStrictEqual(2200.12)
+    expect(money.toLocaleString()).toStrictEqual('£2,200.12')
+  })
+
+  it('should return non-GBP currencies with correct locale formatting', () => {
+    const money = Money.fromString(1000, 'JPY').setLocale('ja')
+
+    expect(money.toLocaleString()).toStrictEqual('￥1,000')
   })
 
   it('should return a decimal string when coerced to a string', () => {
@@ -76,7 +87,7 @@ describe('Money', () => {
   it('should return an object when coerced to an object', () => {
     const money = Money.fromString('22.12', 'GBP')
 
-    expect(money.toObject()).toStrictEqual({ amount:2212, currency: 'GBP', locale: null, precision: 2 })
+    expect(money.toObject()).toStrictEqual({ amount:2212, currency: 'GBP', locale: null, exponent: 2 })
   })
 
   it('should return the amount when coerced to json', () => {

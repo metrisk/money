@@ -1,18 +1,24 @@
 import { round, ROUNDING_MODES } from './Calculation'
-import { parseCurrencyString } from './Currency'
+import { getExponent, parseCurrencyString } from './Currency'
 
 import CurrencyMismatchException from './exception/CurrencyMismatchException'
 
+/**
+ * @param amount The quantity of money as an integer in the subunit of the currency (e.g. 1050 for £10.50)
+ * @param currency The alphabetic currency code as defined by ISO 4217 (e.g. GBP for Sterling)
+ * @param exponent The number of decimal places the currency supports (e.g. 2 for Sterling)
+ * @param locale The BCP 47 language tag for the locale to use when formatting (e.g. en-GB)
+ */
 export default class Money {
   private amount: number
   private currency: string
-  private precision: number
+  private exponent: number
   private locale: string
 
-  constructor(amount: number, currency: string, precision = 2) {
+  constructor(amount: number, currency: string, exponent = getExponent(currency)) {
     this.amount = amount
     this.currency = currency
-    this.precision = precision
+    this.exponent = exponent
     this.locale = undefined
   }
 
@@ -20,11 +26,11 @@ export default class Money {
     return this.toDecimal().toString()
   }
 
-  toObject(): { amount: number, currency: string, precision: number, locale: string } {
+  toObject(): { amount: number, currency: string, exponent: number, locale: string } {
     return {
       amount: this.amount,
       currency: this.currency,
-      precision: this.precision,
+      exponent: this.exponent,
       locale: this.locale || null,
     }
   }
@@ -34,11 +40,11 @@ export default class Money {
   }
 
   /**
-   * Parse monetary string value
-   * @param string input
-   * @param string currency
+   * Create a Money object from a string representation of the amount of money
+   * @param input The quantity of money as a string in the main unit of the currency (e.g. '10.50' for £10.50)
+   * @param currency The alphabetic currency code as defined by ISO 4217 (e.g. GBP for Sterling)
    */
-  static fromString(input: string, currency: string) {
+  static fromString(input: string, currency: string): Money {
     const amount = parseCurrencyString(input, currency)
     return new Money(amount, currency)
   }
@@ -60,16 +66,22 @@ export default class Money {
     return this
   }
 
+  /**
+   * @returns The amount of money in the main unit of the currency
+   */
   toDecimal(): number {
-    return this.getAmount() / Math.pow(10, this.precision)
+    return this.getAmount() / Math.pow(10, this.exponent)
   }
 
+  /**
+   * @returns A string representation of the amount of money formatted according to the locale and currency
+   */
   toLocaleString(): string {
     const options = {
       style: 'currency',
       currency: this.getCurrency(),
     }
-
+    // Note that toLocaleString() will use the locale of the calling context if none is specified
     return this.toDecimal().toLocaleString(this.getLocale(), options)
   }
 
